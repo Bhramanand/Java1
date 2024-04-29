@@ -1,18 +1,21 @@
 pipeline {
     agent any
     
+    triggers {
+        cron('*/2 * * * *') // Run every 2 minutes
+    }
+    
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                git credentialsId: 'your-github-credentials-id', url: 'https://github.com/your-username/your-repo.git'
+                sh 'javac Addition.java' // Compile Java program
             }
         }
         
-        stage('Deploy to XAMPP') {
+        stage('Test') {
             steps {
-                sh 'cp *.html /path/to/xampp/htdocs/'
+                sh 'java Addition' // Run Java program
             }
         }
     }
 }
-
